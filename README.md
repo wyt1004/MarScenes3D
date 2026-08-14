@@ -4,6 +4,8 @@ MarScenes3D is a multimodal maritime perception dataset for 3D detection, 3D
 multi-object tracking, and image-based 2D detection. It contains synchronized
 LiDAR point clouds, six-view images, calibration, platform pose, velocity, and
 identity-preserving annotations collected in real maritime environments.
+![cross_modal_correspondence](assets/cross_modal_correspondence.jpg "cross_modal_correspondence")
+
 
 The dataset is available from [Science Data Bank](https://doi.org/10.57760/sciencedb.35872).
 The code in this repository is
@@ -52,9 +54,48 @@ The raw archive and prepared task-specific layouts are documented in
 [docs/DATASET.md](docs/DATASET.md). The raw archive contains:
 
 ```text
-Data/{Calibs,PCD,Pose,Images}
-Task/{Detection2D,Detection3D,Track}
-Label/{Label2D,Label3D,LabelTrack,Language}
+MarScenes3D
+├── Data
+│   ├── Calibs
+│   │   └── xxxxxx.txt
+│   ├── PCD
+│   │   └── xxxxxx.pcd
+│   ├── Pose
+│   │   └── xxxxxx.txt
+│   └── Images
+│       ├── CAM_FRONT
+│       │   └── xxxxxx.png
+│       ├── CAM_FRONT_LEFT
+│       │   └── xxxxxx.png
+│       ├── CAM_FRONT_RIGHT
+│       │   └── xxxxxx.png
+│       ├── CAM_BACK
+│       │   └── xxxxxx.png
+│       ├── CAM_BACK_LEFT
+│       │   └── xxxxxx.png
+│       └── CAM_BACK_RIGHT
+│           └── xxxxxx.png
+├── Task
+│   ├── Detection2D
+│   │   ├── train.txt
+│   │   └── val.txt
+│   ├── Detection3D
+│   │   ├── train.txt
+│   │   └── val.txt
+│   └── Track
+│       ├── train
+│       │   └── xx.txt
+│       └── val
+│           └── xx.txt
+└── Label
+    ├── Label2D
+    │   └── xxxxxx.txt
+    ├── Label3D
+    │   └── xxxxxx.txt
+    ├── LabelTrack
+    │   └── xx.txt
+    └── Language
+        └── xxxxxx.json
 ```
 
 The exact annotation fields are defined in
@@ -98,9 +139,7 @@ python tools/evaluate_3d_detection.py \
   --split-file /path/to/MarScenes3D/Task/Detection3D/val.txt
 ```
 
-This reports per-class 3D AP_R40 at IoU `0.5` for every class. The current
-benchmark values in `docs/BENCHMARKS.md` are intentionally `TBD` placeholders
-until the paper experiments are finalized.
+This reports per-class 3D AP_R40 at IoU `0.5`.
 
 ## 3D tracking
 
@@ -135,15 +174,14 @@ The viewer currently expects its prepared `points/`, `image/`, `calib/`, and
 
 The tracking annotation format and evaluation workflow are described in
 [docs/ANNOTATION_FORMATS.md](docs/ANNOTATION_FORMATS.md) and
-[docs/BASELINES.md](docs/BASELINES.md). The repository does not ship a copy of
-the full dataset or tracking ground truth.
+[docs/BASELINES.md](docs/BASELINES.md).
 
 ## 2D detection
 
 The supplied 2D labels use normalized YOLO format for the front camera only
 (`CAM_FRONT`). There is one class, `0 = vessel`. Convert images and labels to
 the layout described in `docs/DATASET.md`, update the dataset `path`, and run
-Ultralytics 8.4.117 (the latest release checked on 2026-08-10):
+Ultralytics 8.4.30:
 
 ```bash
 python tools/prepare_yolo.py \
@@ -153,13 +191,11 @@ python tools/prepare_yolo.py \
 
 ```bash
 yolo detect train \
-  model=yolo26m.pt \
+  model=yolo10l.pt \
   data=tools/cfgs/dataset_configs/marscenes3d_yolo.yaml
 ```
 
-Ultralytics is an optional external dependency under AGPL-3.0. Do not copy its
-source or weights into this MIT-licensed repository. Record image size, epochs,
-split, seed, and per-class metrics in `docs/BENCHMARKS.md`.
+Ultralytics is an optional external dependency under the AGPL-3.0 license.
 
 
 ## Citation
