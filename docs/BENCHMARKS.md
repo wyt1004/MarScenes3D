@@ -27,7 +27,8 @@ threshold, sequence list, frame rate, and whether the run is online or global.
 
 | Model | Camera(s) | Split | mAP50 | mAP50-95 | Config / command |
 | --- | --- | --- | --- | --- | --- |
-| YOLO26m (Ultralytics 8.4.117) | CAM_FRONT | TBD | TBD | TBD | `tools/cfgs/dataset_configs/marscenes3d_yolo.yaml` |
+| YOLOv8l (Ultralytics 8.4.30) | CAM_FRONT | TBD | TBD | TBD | `yolo detect train model=yolov8l.pt data=tools/cfgs/dataset_configs/marscenes3d_yolo.yaml` |
+| YOLOv10l (Ultralytics 8.4.30) | CAM_FRONT | TBD | TBD | TBD | `yolo detect train model=yolov10l.pt data=tools/cfgs/dataset_configs/marscenes3d_yolo.yaml` |
 
 Record the exact Ultralytics version, pretrained weights, image size, epochs,
 batch size, augmentation settings, random seed, and per-class metrics.

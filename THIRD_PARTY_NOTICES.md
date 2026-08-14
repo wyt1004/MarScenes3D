@@ -9,7 +9,7 @@ must be preserved when the corresponding files are redistributed.
 | [OpenPCDet](https://github.com/open-mmlab/OpenPCDet) | Dataset adapter conventions and optional CUDA/model integration | Apache-2.0; retain upstream copyright and license notices; see `LICENSES/Apache-2.0.txt` |
 | [TrackEval](https://github.com/JonathonLuiten/TrackEval) | HOTA, CLEAR, Identity and Count evaluation | MIT; retained upstream revision `12c8791b303e0a0b50f753af204249e622d0281a` with MarScenes3D adaptations; license is in `eval/eval_track/evaluation/static_evaluation/custom/evaluation_HOTA/LICENSE` |
 | [MCTrack](https://github.com/megvii-research/MCTrack) / [HybridTrack](https://github.com/leandro-svg/HybridTrack) | Optional external 3D tracking baselines | Not redistributed. Obtain code from the original repository and comply with its license/usage terms |
-| Ultralytics YOLO 8.4.117 | Optional 2D detection baseline | AGPL-3.0; installed as an external dependency only, not copied into this repository |
+| Ultralytics 8.4.30 (YOLOv8l and YOLOv10l) | Optional 2D detection baselines | AGPL-3.0; installed as an external dependency only, not copied into this repository |
 
 Some files in `eval/eval_track/evaluation/static_evaluation/` already contain
 upstream license files. Those files remain authoritative for the bundled

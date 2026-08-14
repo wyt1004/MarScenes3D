@@ -29,11 +29,12 @@ not part of the MarScenes3D workflow.
 
 ## 2D detection
 
-The current optional image baseline uses Ultralytics `8.4.117` and its latest
-YOLO26 detection weights:
+The optional image baselines use Ultralytics `8.4.30` with YOLOv8l and
+YOLOv10l detection weights:
 
 ```bash
-yolo detect train model=yolo26m.pt data=tools/cfgs/dataset_configs/marscenes3d_yolo.yaml
+yolo detect train model=yolov8l.pt data=tools/cfgs/dataset_configs/marscenes3d_yolo.yaml
+yolo detect train model=yolov10l.pt data=tools/cfgs/dataset_configs/marscenes3d_yolo.yaml
 ```
 
 Ultralytics is an external AGPL-3.0 dependency. Record the model size and

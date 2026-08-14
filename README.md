@@ -161,11 +161,6 @@ Ultralytics is an optional external dependency under AGPL-3.0. Do not copy its
 source or weights into this MIT-licensed repository. Record image size, epochs,
 split, seed, and per-class metrics in `docs/BENCHMARKS.md`.
 
-## Results and reproducibility
-
-Reported metrics, checkpoints, random seeds, hardware, and exact commands
-belong in [docs/BENCHMARKS.md](docs/BENCHMARKS.md). Generated data, weights,
-logs, and results should not be committed; see [`.gitignore`](.gitignore).
 
 ## Citation
 

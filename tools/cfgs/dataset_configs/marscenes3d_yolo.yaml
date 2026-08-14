@@ -1,4 +1,4 @@
-# Ultralytics 8.4.117 dataset configuration for the CAM_FRONT 2D detection task.
+# Ultralytics 8.4.30 dataset configuration for the CAM_FRONT 2D detection task.
 # The only class is class 0 = vessel.
 # Update `path` to the prepared YOLO dataset root before training.
 path: ./data/marscenes3d_yolo

@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-title: "MarScenes3D: A Multimodal Maritime Perception Dataset"
-message: "If you use the MarScenes3D code or dataset, please cite the dataset and the accompanying paper."
+title: "A Multimodal Dataset for Perception in Real-World Maritime Navigation Scenarios"
+message: "If you use the MarScenes3D code or dataset, please cite the dataset and the paper titled 'A Multimodal Dataset for Perception in Real-World Maritime Navigation Scenarios'."
 type: software
 authors:
   - family-names: Wang

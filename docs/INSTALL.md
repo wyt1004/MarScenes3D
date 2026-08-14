@@ -23,8 +23,8 @@ the selected OpenPCDet-compatible project, or add this repository to that
 project's Python path.
 
 The 3D adapter under `adapters/openpcdet/` follows the OpenPCDet environment
-and package layout. The optional 2D baseline is pinned to Ultralytics 8.4.117
-(AGPL-3.0).
+and package layout. The optional YOLOv8l and YOLOv10l baselines are pinned to
+Ultralytics 8.4.30 (AGPL-3.0).
 
 ## Registering the 3D adapter
 

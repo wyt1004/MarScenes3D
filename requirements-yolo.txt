@@ -1,2 +1,2 @@
 # Install this optional dependency only if you accept its AGPL-3.0 terms.
-ultralytics==8.4.117
+ultralytics==8.4.30
