@@ -37,5 +37,4 @@ yolo detect train model=yolov8l.pt data=tools/cfgs/dataset_configs/marscenes3d_y
 yolo detect train model=yolov10l.pt data=tools/cfgs/dataset_configs/marscenes3d_yolo.yaml
 ```
 
-Ultralytics is an external AGPL-3.0 dependency. Record the model size and
-hyperparameters used for paper results in `docs/BENCHMARKS.md`.
+Ultralytics is an external AGPL-3.0 dependency.
