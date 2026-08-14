@@ -6,6 +6,7 @@
 - Added 3D detection and tracking annotation readers.
 - Added ASCII/binary PCD to NumPy conversion tools.
 - Added model-agnostic 3D AP_R40 and TrackEval-based HOTA/MOTA/IDF1 evaluation.
+- Added model-agnostic Open3D visualization for single-frame 3D detections.
 - Added CAM_FRONT YOLOv8l and YOLOv10l baselines (`class 0 = vessel`) using
   Ultralytics 8.4.30.
 - Added MIT code licensing, CC BY-NC 4.0 dataset terms, third-party notices,

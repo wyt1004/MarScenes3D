@@ -14,8 +14,8 @@ python -m pip install -r requirements.txt
 
 For the optional OpenPCDet model integration, install the matching PyTorch and
 CUDA packages from `requirements-openpcdet.txt`, then build operators in the
-external model repository. For TrackEval and YOLO, install the corresponding
-optional requirements file.
+external model repository. For TrackEval, YOLO, and visualization, install the
+corresponding optional requirements file.
 
 The repository intentionally does not ship a standalone `pcdet` package or
 model checkpoints. It is an adapter repository: copy the dataset adapter into
@@ -25,6 +25,10 @@ project's Python path.
 The 3D adapter under `adapters/openpcdet/` follows the OpenPCDet environment
 and package layout. The optional YOLOv8l and YOLOv10l baselines are pinned to
 Ultralytics 8.4.30 (AGPL-3.0).
+
+The standalone 3D detection viewer uses Open3D and is available through
+`requirements-visualization.txt`; it does not require an OpenPCDet model or
+checkpoint.
 
 ## Registering the 3D adapter
 

@@ -18,7 +18,7 @@ licenses listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 | Task | Input | Output | Main code |
 | --- | --- | --- | --- |
-| 3D detection | LiDAR point cloud | 3D boxes and classes | `adapters/openpcdet/`, `tools/prepare_openpcdet.py`, `tools/evaluate_3d_detection.py` |
+| 3D detection | LiDAR point cloud | 3D boxes and classes | `adapters/openpcdet/`, `tools/prepare_openpcdet.py`, `tools/evaluate_3d_detection.py`, `tools/visualize_3d_detection.py` |
 | 3D tracking | Per-frame 3D detections | Boxes with persistent IDs | `tools/3D_detection_track_viewer/`, `eval/eval_track/` |
 | 2D detection | Camera image | YOLO 2D boxes and classes | `tools/cfgs/dataset_configs/marscenes3d_yolo.yaml` |
 
@@ -162,7 +162,43 @@ python eval/eval_track/evaluation/static_evaluation/custom/evaluation_HOTA/scrip
 The expected result layout is `/path/to/results/my_tracker/data/<sequence>.txt`.
 The evaluator reports HOTA, CLEAR/MOTA, and Identity/IDF1 for `vessel`.
 
-To inspect a prepared sequence after setting its data and result paths:
+The tracking annotation format and evaluation workflow are described in
+[docs/ANNOTATION_FORMATS.md](docs/ANNOTATION_FORMATS.md) and
+[docs/BASELINES.md](docs/BASELINES.md).
+
+## Visualization
+
+Install the optional visualization dependencies first:
+
+```bash
+python -m pip install -r requirements-visualization.txt
+```
+
+### 3D detection
+
+The Open3D viewer follows the point-cloud and box rendering workflow used by
+OpenPCDet's demo, but does not require a detector or checkpoint. It accepts one
+raw `.pcd`, converted `.npy`, or OpenPCDet-style `.bin` point cloud. Ground-truth
+and prediction files are optional; prediction rows must include a confidence
+score as described in [docs/ANNOTATION_FORMATS.md](docs/ANNOTATION_FORMATS.md).
+
+```bash
+python tools/visualize_3d_detection.py \
+  --point-cloud /path/to/MarScenes3D/Data/PCD/xxxxxx.pcd \
+  --gt-label /path/to/MarScenes3D/Label/Label3D/xxxxxx.txt \
+  --pred-label /path/to/detection/results/xxxxxx.txt \
+  --score-threshold 0.3
+```
+
+Ground-truth boxes are green and prediction boxes are blue. Use
+`--uniform-points` for uniform gray points instead of intensity-based colors.
+
+### 3D tracking
+
+The tracking viewer displays LiDAR points, front-camera images, 3D boxes, and
+tracking IDs for a prepared sequence. The input root must contain
+`points/<seq-id>/`, `image/<seq-id>/`, `calib/<zero-padded-seq-id>.txt`, and
+`label/<zero-padded-seq-id>.txt`. Run:
 
 ```bash
 python tools/3D_detection_track_viewer/maritime3d_viewer.py \
@@ -171,19 +207,15 @@ python tools/3D_detection_track_viewer/maritime3d_viewer.py \
   --label-path /path/to/tracking/results.txt
 ```
 
-The viewer currently expects its prepared `points/`, `image/`, `calib/`, and
-`label/` layout; it does not read the raw archive tree directly.
-
-The tracking annotation format and evaluation workflow are described in
-[docs/ANNOTATION_FORMATS.md](docs/ANNOTATION_FORMATS.md) and
-[docs/BASELINES.md](docs/BASELINES.md).
+Omit `--label-path` to display the prepared ground-truth labels. The tracking
+viewer currently reads this prepared layout rather than the raw dataset archive.
 
 ## 2D detection
 
 The supplied 2D labels use normalized YOLO format for the front camera only
 (`CAM_FRONT`). There is one class, `0 = vessel`. Convert images and labels to
-the layout described in `docs/DATASET.md`, update the dataset `path`, and run
-Ultralytics 8.4.30:
+the layout described in `docs/DATASET.md`, update the dataset `path`, and use
+Ultralytics 8.4.30 with YOLOv8l or YOLOv10l:
 
 ```bash
 python tools/prepare_yolo.py \
@@ -193,7 +225,11 @@ python tools/prepare_yolo.py \
 
 ```bash
 yolo detect train \
-  model=yolo10l.pt \
+  model=yolov8l.pt \
+  data=tools/cfgs/dataset_configs/marscenes3d_yolo.yaml
+
+yolo detect train \
+  model=yolov10l.pt \
   data=tools/cfgs/dataset_configs/marscenes3d_yolo.yaml
 ```
 

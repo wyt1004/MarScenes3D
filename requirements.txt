@@ -3,4 +3,5 @@
 #   python -m pip install -r requirements-trackeval.txt
 #   python -m pip install -r requirements-yolo.txt
 #   python -m pip install -r requirements-openpcdet.txt
+#   python -m pip install -r requirements-visualization.txt
 -r requirements-core.txt
