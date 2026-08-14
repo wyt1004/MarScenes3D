@@ -6,6 +6,7 @@ LiDAR point clouds, six-view images, calibration, platform pose, velocity, and
 identity-preserving annotations collected in real maritime environments.
 ![cross_modal_correspondence](assets/cross_modal_correspondence.jpg "cross_modal_correspondence")
 
+![viedo](assets/track.gif "viedo")
 
 The dataset is available from [Science Data Bank](https://doi.org/10.57760/sciencedb.35872).
 The code in this repository is
@@ -140,6 +141,7 @@ python tools/evaluate_3d_detection.py \
 ```
 
 This reports per-class 3D AP_R40 at IoU `0.5`.
+
 
 ## 3D tracking
 
