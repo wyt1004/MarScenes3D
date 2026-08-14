@@ -129,7 +129,3 @@ data/marscenes3d_yolo/
 `-- labels/{train,val,test}/
 ```
 
-The default mode creates absolute symlinks, so the 200GB source archive is not
-duplicated. Use `--mode copy` when symlinks are unsuitable. Each image and
-label file shares the same stem, and the source archive's `Detection2D` split
-files define train and validation membership.
