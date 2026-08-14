@@ -1,0 +1,6 @@
+# Default lightweight environment for conversion and evaluation.
+# Install optional task environments separately:
+#   python -m pip install -r requirements-trackeval.txt
+#   python -m pip install -r requirements-yolo.txt
+#   python -m pip install -r requirements-openpcdet.txt
+-r requirements-core.txt

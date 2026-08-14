@@ -1,3 +1,5 @@
+import argparse
+
 from viewer.viewer import Viewer
 import numpy as np
 from dataset.maritime3d_dataset import Maritime3dTrackingDataset
@@ -7,10 +9,8 @@ from viewer.box_op import get_line_boxes, convert_box_type, get_mesh_boxes
 from viewer.add_ships import add_3D_ships
 from viewer.color_map import generate_objects_colors,generate_objects_color_map
 
-def kitti_viewer():
-    root = "your/path"
-    label_path = "/your/label/path" 
-    dataset = Maritime3dTrackingDataset(root,seq_id=11,label_path=label_path)
+def kitti_viewer(root, seq_id, label_path=None, frame_ids=None):
+    dataset = Maritime3dTrackingDataset(root, seq_id=seq_id, label_path=label_path)
 
     vi = Viewer(box_type="maritime3d")
 
@@ -20,14 +20,10 @@ def kitti_viewer():
         P2, V2C, points, image, labels, label_names, point_cloud = dataset[i]
         # print(f"idx: {i}")
 
-        if i not in [2, 3, 6, 23]:
+        if frame_ids is not None and i not in frame_ids:
             continue
 
         if labels is not None:
-            # mask = (label_names=="vessel")   #gt
-            mask = (label_names=="Vessel") #track result
-            labels = labels[mask]
-            label_names = label_names[mask]
             ids=labels[:, -1].astype(int)
             objects_color_map = generate_objects_color_map('rainbow')
             colors = generate_objects_colors(ids,objects_color_map)
@@ -36,7 +32,8 @@ def kitti_viewer():
             vi.add_2D_text(boxes=labels, ids=ids, colors=colors, box_info=label_names,add_to_2D_scene=True)
             plotter += get_line_boxes(labels, colors=colors, show_heading=False)
 
-            plotter += get_mesh_boxes(labels, colors=colors, ids=labels[:, -1].astype(int), show_ids=False, mesh_alpha=0,caption_size=(0.1,0.1))
+            # Use line boxes by default; optional third-party mesh assets are
+            # intentionally not required by the public viewer.
         vi.add_points(points[:,:3])
 
         points = Points(point_cloud[:,:3], r=2.5, c=(175, 175, 175))
@@ -60,4 +57,10 @@ def kitti_viewer():
 
 
 if __name__ == '__main__':
-    kitti_viewer()
+    parser = argparse.ArgumentParser(description='Visualize a MarScenes3D tracking sequence.')
+    parser.add_argument('--root', required=True, help='Root of the prepared tracking dataset')
+    parser.add_argument('--seq-id', type=int, required=True, help='Sequence ID')
+    parser.add_argument('--label-path', default=None, help='Tracking result file; defaults to dataset labels')
+    parser.add_argument('--frames', nargs='*', type=int, default=None, help='Optional frame IDs to display')
+    args = parser.parse_args()
+    kitti_viewer(args.root, args.seq_id, args.label_path, args.frames)

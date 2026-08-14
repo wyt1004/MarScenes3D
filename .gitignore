@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.3ds
+*.obj
+.pytest_cache/
+.mypy_cache/
+
+# Environments and local configuration
+.venv/
+venv/
+*.egg-info/
+.env
+
+# Data, checkpoints, and generated outputs
+data/*
+!data/.gitkeep
+checkpoints/
+weights/
+outputs/
+results/
+logs/
+
+# IDE and OS files
+.vscode/*
+!.vscode/settings.example.json
+.DS_Store

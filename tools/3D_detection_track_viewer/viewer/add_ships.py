@@ -13,7 +13,7 @@ def add_3D_ships(boxes=None,
                      show_ids = False,
                      show_box_info=False,
                     #  del_after_show=True,
-                     car_model_path="viewer/car.obj",
+                     car_model_path=None,
                      caption_size = (0.1, 0.1)
                     ):
 
@@ -75,6 +75,8 @@ def add_3D_ships(boxes=None,
                     # return tracks_actors_dict
                 else:
 
+                    if car_model_path is None:
+                        continue
                     new_car=load(car_model_path)
                     # new_car.scale((1,0.3,0.3))
                     new_car.scale((0.12,0.3,0.3))
@@ -105,6 +107,8 @@ def add_3D_ships(boxes=None,
                     # return tracks_actors_dict
 
             else:
+                if car_model_path is None:
+                    continue
                 new_car = load(car_model_path)
                 new_car.scale((0.12, 0.3, 0.3))
 

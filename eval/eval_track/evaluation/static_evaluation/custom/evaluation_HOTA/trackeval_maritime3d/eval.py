@@ -68,9 +68,6 @@ class Evaluator:
 
             # Evaluate each tracker
             for i, tracker in enumerate(tracker_list):
-                if i > 0:
-                    continue
-                
                 # if not config['BREAK_ON_ERROR'] then go to next tracker without breaking
                 try:
                     # Evaluate each sequence in parallel or in series.
@@ -103,7 +100,7 @@ class Evaluator:
                         res['COMBINED_SEQ'][c_cls] = {}
                         for metric, metric_name in zip(metrics_list, metric_names):
                             curr_res = {seq_key: seq_value[c_cls][metric_name] for seq_key, seq_value in res.items() if
-                                        seq_key is not 'COMBINED_SEQ'}
+                                        seq_key != 'COMBINED_SEQ'}
                             res['COMBINED_SEQ'][c_cls][metric_name] = metric.combine_sequences(curr_res)
                     # combine classes
                     
@@ -190,7 +187,7 @@ class Evaluator:
                     elif config['RETURN_ON_ERROR']:
                         return output_res, output_msg
 
-        return output_res, output_msg, hota
+        return output_res, output_msg
 
 
 # @_timing.time

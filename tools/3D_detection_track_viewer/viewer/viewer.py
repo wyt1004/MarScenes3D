@@ -61,12 +61,14 @@ class Viewer:
 
         return self.objects_color_map
 
-    def set_ego_car(self,ego_car_path = "viewer/ego_car.3ds"):
+    def set_ego_car(self,ego_car_path = None):
         """
         setting ego car
         :param ego_car_path: (str), path of ego car model
         :return:
         """
+        if ego_car_path is None:
+            return
         ego_car = load(ego_car_path)
         ego_car.pos(-0.5, 0, -1.6)
         ego_car.scale(0.9)
@@ -264,7 +266,7 @@ class Viewer:
                      show_ids = False,
                      show_box_info=False,
                      del_after_show=True,
-                     car_model_path="viewer/car.obj",
+                     car_model_path=None,
                      caption_size = (0.1, 0.1)
                     ):
 
@@ -322,6 +324,8 @@ class Viewer:
                         self.actors_without_del.append(self.tracks_actors_dict[ob_id])
                 else:
 
+                    if car_model_path is None:
+                        continue
                     new_car=load(car_model_path)
                     new_car.scale((0.12,0.3,0.3))
 
@@ -354,6 +358,8 @@ class Viewer:
                         self.actors_without_del.append(self.tracks_actors_dict[ob_id])
 
             else:
+                if car_model_path is None:
+                    continue
                 new_car = load(car_model_path)
                 new_car.scale((0.12, 0.3, 0.3))
 
@@ -523,4 +529,3 @@ class Viewer:
         cv2.waitKey(10)
         self.points_info.clear()
         self.boxes_info.clear()
-

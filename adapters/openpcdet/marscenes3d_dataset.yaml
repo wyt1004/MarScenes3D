@@ -1,0 +1,21 @@
+# OpenPCDet data configuration for the external MarScenes3DDataset adapter.
+# The model configuration and training code belong to the external model repo.
+DATASET: 'MarScenes3DDataset'
+DATA_PATH: './data/custom'
+
+CLASS_NAMES: ['large_vessel', 'medium_vessel', 'small_vessel', 'sign', 'piers', 'lighthouse']
+
+POINT_CLOUD_RANGE: [-200, -100, -20, 200, 300, 40]
+
+DATA_SPLIT:
+  train: train
+  test: val
+
+INFO_PATH:
+  train: [custom_infos_train.pkl]
+  test: [custom_infos_val.pkl]
+
+POINT_FEATURE_ENCODING:
+  encoding_type: absolute_coordinates_encoding
+  used_feature_list: ['x', 'y', 'z', 'intensity']
+  src_feature_list: ['x', 'y', 'z', 'intensity']

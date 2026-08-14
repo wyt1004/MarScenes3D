@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+title: "MarScenes3D: A Multimodal Maritime Perception Dataset"
+message: "If you use the MarScenes3D code or dataset, please cite the dataset and the accompanying paper."
+type: software
+authors:
+  - family-names: Wang
+    given-names: Yutang
+repository-code: "https://github.com/wyt1004/MarScenes3D"
+license: MIT
+version: "1.0.0"
+identifiers:
+  - type: doi
+    value: "10.57760/sciencedb.35872"
+    description: "MarScenes3D dataset DOI"

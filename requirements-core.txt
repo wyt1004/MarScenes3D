@@ -1,0 +1,5 @@
+# CPU-friendly tools used by conversion and detection AP evaluation.
+numpy==1.24.0
+scipy==1.14.1
+PyYAML==6.0.2
+tqdm==4.67.0

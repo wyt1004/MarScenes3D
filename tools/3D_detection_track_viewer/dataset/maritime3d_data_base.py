@@ -1,6 +1,5 @@
 import os
 import cv2
-import re
 import numpy as np
 
 """
@@ -9,15 +8,19 @@ return: P0: (4,4) 3D camera coordinates to 2D image pixels
         vtc_mat: (4,4) 3D velodyne Lidar coordinates to 3D camera coordinates
 """
 def read_calib(calib_path):
+    P0 = None
+    vtc_mat = None
     with open(calib_path) as f:
         for line in f.readlines():
-            if line[:2] == "P0":
-                P0 = re.split(" ", line.strip())
-                P0 = np.array(P0[-12:], np.float32)
+            fields = line.split()
+            if not fields:
+                continue
+            key = fields[0].rstrip(':')
+            if key in {"P0", "P2"}:
+                P0 = np.array(fields[-12:], np.float32)
                 P0 = P0.reshape((3, 4))
-            if line[:14] == "Tr_velo_to_cam" or line[:11] == "Tr_velo_cam":
-                vtc_mat = re.split(" ", line.strip())
-                vtc_mat = np.array(vtc_mat[-12:], np.float32)
+            if key in {"Tr_velo_to_cam", "Tr_velo_cam"}:
+                vtc_mat = np.array(fields[-12:], np.float32)
                 vtc_mat = vtc_mat.reshape((3, 4))
                 vtc_mat = np.concatenate([vtc_mat, [[0, 0, 0, 1]]])
             # if line[:7] == "R0_rect" or line[:6] == "R_rect":
@@ -26,8 +29,9 @@ def read_calib(calib_path):
             #     R0 = R0.reshape((3, 3))
             #     R0 = np.concatenate([R0, [[0], [0], [0]]], -1)
             #     R0 = np.concatenate([R0, [[0, 0, 0, 1]]])
-    # vtc_mat = np.matmul(R0, vtc_mat)
-    return (P0, vtc_mat)
+    if P0 is None or vtc_mat is None:
+        raise ValueError(f"Missing projection or LiDAR extrinsic matrix in {calib_path}")
+    return P0, vtc_mat
 
 
 """
@@ -99,8 +103,20 @@ def read_velodyne(path, P, vtc_mat, IfReduce=True,
         IfReduce=False 时，等同于原始点云。
     """
 
-    # 读取原始 Velodyne 点云 [x, y, z, reflect]
-    lidar = np.fromfile(path, dtype=np.float32).reshape((-1, 4))
+    # Read either a NumPy array or an OpenPCDet-style float32 binary file.
+    if str(path).lower().endswith('.npy'):
+        lidar = np.load(path)
+        if lidar.ndim != 2 or lidar.shape[1] < 3:
+            raise ValueError(f"Expected an N x C point array with C >= 3, got {lidar.shape}")
+        if lidar.shape[1] == 3:
+            lidar = np.column_stack([lidar, np.zeros(len(lidar), dtype=lidar.dtype)])
+        else:
+            lidar = lidar[:, :4]
+    else:
+        raw = np.fromfile(path, dtype=np.float32)
+        if raw.size % 4:
+            raise ValueError(f"Point cloud does not contain four float32 values per point: {path}")
+        lidar = raw.reshape((-1, 4))
 
     if not IfReduce:
         # 不做任何过滤，直接返回
@@ -192,8 +208,7 @@ def velo_to_cam(cloud,vtc_mat):
     mat[:,0:3]=cloud[:,0:3]
     # mat=np.mat(mat)
     # normal=np.mat(vtc_mat).I
-    normal = np.linalg.inv(vtc_mat)
-    normal=normal[0:3,0:4]
+    normal = np.asarray(vtc_mat, dtype=np.float32)[0:3, 0:4]
     transformed_mat = normal @ mat.T
     # transformed_mat = normal * mat.T
     T=np.array(transformed_mat.T,dtype=np.float32)
@@ -204,51 +219,46 @@ def read_image(path):
     return im
 
 def read_detection_label(path):
-
     boxes = []
     names = []
 
-    with open(path) as f:
-        for line in f.readlines():
-            line = line.split()
-            this_name = line[0]
-            if this_name != "DontCare":
-                line = np.array(line[-7:],np.float32)
-                boxes.append(line)
-                names.append(this_name)
+    with open(path, encoding='utf-8') as f:
+        for line_number, line in enumerate(f, start=1):
+            fields = line.split()
+            if not fields:
+                continue
+            if len(fields) != 15:
+                raise ValueError(f"{path}:{line_number}: expected 15 detection fields")
+            if fields[0] == "DontCare":
+                continue
+            boxes.append(np.asarray(fields[7:14], dtype=np.float32))
+            names.append(fields[1])
 
-    return np.array(boxes),np.array(names)
+    return np.asarray(boxes, dtype=np.float32).reshape(-1, 7), np.asarray(names)
 
 def read_tracking_label(path):
+    frame_dict = {}
+    names_dict = {}
 
-    frame_dict={}
-
-    names_dict={}
-
-    with open(path) as f:
-        for line in f.readlines():
-            line = line.split()
-            this_name = line[1]
-            frame_id = int(line[0])
-            ob_id = int(line[3])
-
-            #可视化修正
-            if ob_id in [22, 8, 26, 29, 31, 39]:
+    with open(path, encoding='utf-8') as f:
+        for line_number, line in enumerate(f, start=1):
+            fields = line.split()
+            if not fields:
                 continue
+            if len(fields) not in {12, 16}:
+                raise ValueError(f"{path}:{line_number}: expected 12 or 16 tracking fields")
+            frame_id = int(fields[0])
+            this_name = fields[2]
+            object_id = int(fields[3])
+            if fields[1] == "DontCare":
+                continue
+            box_start = 4 if len(fields) == 12 else 8
+            box = np.asarray(fields[box_start:box_start + 7], dtype=np.float32).tolist()
+            box.append(object_id)
+            frame_dict.setdefault(frame_id, []).append(box)
+            names_dict.setdefault(frame_id, []).append(this_name)
 
-            if this_name != "DontCare":
-                line = np.array(line[4:11],np.float32).tolist()
-                line.append(ob_id)
-
-
-                if frame_id in frame_dict.keys():
-                    frame_dict[frame_id].append(line)
-                    names_dict[frame_id].append(this_name)
-                else:
-                    frame_dict[frame_id] = [line]
-                    names_dict[frame_id] = [this_name]
-
-    return frame_dict,names_dict
+    return frame_dict, names_dict
 
 def get_sorted_file_list(folder):
     # 1. 获取所有文件名
@@ -263,4 +273,3 @@ if __name__ == '__main__':
     path = 'H:/dataset/traking/training/label_02/0000.txt'
     labels,a = read_tracking_label(path)
     print(a)
-

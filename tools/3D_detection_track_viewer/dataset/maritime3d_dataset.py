@@ -14,13 +14,13 @@ class Maritime3dDetectionDataset:
         else:
             self.label_path = label_path
 
-        self.all_ids = os.listdir(self.velo_path)
+        self.frame_names = get_sorted_file_list(self.velo_path)
 
     def __len__(self):
-        return len(self.all_ids)
+        return len(self.frame_names)
     def __getitem__(self, item):
 
-        name = str(item).zfill(6)
+        name = self.frame_names[item]
 
         velo_path = os.path.join(self.velo_path,name+'.npy')
         image_path = os.path.join(self.image_path, name+'.png')
@@ -31,7 +31,6 @@ class Maritime3dDetectionDataset:
         points = read_velodyne(velo_path,P2,V2C)
         image = read_image(image_path)
         labels,label_names = read_detection_label(label_path)
-        labels[:,3:6] = cam_to_velo(labels[:,3:6],V2C)[:,:3]
 
         return P2,V2C,points,image,labels,label_names
 
@@ -45,7 +44,6 @@ class Maritime3dTrackingDataset:
 
 
 
-        self.all_ids = os.listdir(self.velo_path)
         calib_path = self.calib_path + '.txt'
 
         if label_path is None:
@@ -56,15 +54,18 @@ class Maritime3dTrackingDataset:
         self.P2, self.V2C = read_calib(calib_path)
         self.labels, self.label_names = read_tracking_label(label_path)
 
-        self.img_names = get_sorted_file_list(self.image_path)
-        self.pcd_names = get_sorted_file_list(self.velo_path)
+        img_names = set(get_sorted_file_list(self.image_path))
+        pcd_names = set(get_sorted_file_list(self.velo_path))
+        self.frame_names = sorted(img_names & pcd_names)
+        if not self.frame_names:
+            raise ValueError(f'No synchronized image/point-cloud frames found for sequence {self.seq_name}')
 
     def __len__(self):
-        return len(self.all_ids)-1
+        return len(self.frame_names)
     def __getitem__(self, item):
 
-        img_name = self.img_names[item]
-        pcd_name = self.pcd_names[item]
+        img_name = self.frame_names[item]
+        pcd_name = self.frame_names[item]
 
         velo_path = os.path.join(self.velo_path, pcd_name+'.npy')
         image_path = os.path.join(self.image_path, img_name+'.png')
