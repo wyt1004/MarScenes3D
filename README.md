@@ -248,8 +248,15 @@ Ultralytics is an optional external dependency under the AGPL-3.0 license.
 
 ## Citation
 
-See [CITATION.cff](CITATION.cff). Please cite the MarScenes3D dataset DOI and
-the accompanying paper when using the data or code.
+Please cite the dataset as:
+
+Wang, Y. A multimodal dataset for perception in real-world maritime
+navigation scenarios. Science Data Bank,
+https://doi.org/10.57760/sciencedb.35872 (2026).
+Dataset, Version 3.
+
+Machine-readable citation metadata are provided in
+[CITATION.cff](CITATION.cff).
 
 ## License and acknowledgements
 
