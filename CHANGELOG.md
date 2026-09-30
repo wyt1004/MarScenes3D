@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.0.0] - 2026-09-30
+## [Documentation update] - 2026-09-30
 
 - Updated dataset documentation to refer to Science Data Bank Version 3.
 - Updated the dataset licence from CC BY-NC 4.0 to CC BY 4.0.
