@@ -8,11 +8,21 @@ identity-preserving annotations collected in real maritime environments.
 
 ![viedo](assets/track.gif "viedo")
 
-The dataset is available from [Science Data Bank](https://doi.org/10.57760/sciencedb.35872).
-The code in this repository is
-released under the MIT license. The dataset is released separately under
-[CC BY-NC 4.0](DATA_LICENSE.md); third-party components retain their original
-licenses listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+## Dataset availability
+
+MarScenes3D Version 3 is available from
+[Science Data Bank](https://doi.org/10.57760/sciencedb.35872).
+
+- Dataset DOI: https://doi.org/10.57760/sciencedb.35872
+- Dataset version: Version 3
+- Dataset licence: [CC BY 4.0](DATA_LICENSE.md)
+
+All dataset files are publicly downloadable without an access request
+or approval from the authors.
+
+Original code in this repository is released under the
+[MIT License](LICENSE). Third-party components retain their original
+licences, as detailed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Supported tasks
 
