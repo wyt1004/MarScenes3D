@@ -1,6 +1,13 @@
 # Dataset Organization
 
-Download MarScenes3D from [Science Data Bank](https://doi.org/10.57760/sciencedb.35872).
+Download MarScenes3D Version 3 from
+[Science Data Bank](https://doi.org/10.57760/sciencedb.35872).
+
+The dataset is released under
+[CC BY 4.0](../DATA_LICENSE.md).
+All dataset files are publicly downloadable without an access request
+or approval from the authors.
+
 The raw archive separates sensor
 data, task splits, and labels:
 
