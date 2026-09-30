@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.0] - 2026-09-30
+
+- Updated dataset documentation to refer to Science Data Bank Version 3.
+- Updated the dataset licence from CC BY-NC 4.0 to CC BY 4.0.
+- Updated dataset availability and citation information.
+- Changed the cited manuscript title to sentence case.
+- Clarified the distinction between the dataset version and the code version.
+
 ## [1.0.0] - 2026-08-14
 
 - Added the initial release structure for MarScenes3D.
