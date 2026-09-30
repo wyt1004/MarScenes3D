@@ -1,13 +1,19 @@
-# Dataset License
+# Dataset licence
 
-The MarScenes3D dataset is released under the
-[Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/).
+MarScenes3D Version 3, deposited in Science Data Bank, is released under
+the [Creative Commons Attribution 4.0 International licence
+(CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
 
-You may share and adapt the dataset for non-commercial purposes, provided that
-you give appropriate credit, link to the license, and indicate whether
-changes were made. The dataset license is separate from the MIT license that
-covers original code in this repository.
+You may share and adapt the dataset, including for commercial purposes,
+subject to the licence terms. You must give appropriate credit, provide
+a link to the licence, and indicate whether changes were made.
 
-The dataset DOI is [10.57760/sciencedb.35872](https://doi.org/10.57760/sciencedb.35872).
-Please check the dataset record for the authoritative terms, version, and
-download instructions.
+Dataset record: https://doi.org/10.57760/sciencedb.35872
+
+This licence applies to the dataset. Original code in this repository
+is licensed separately under the [MIT License](LICENSE).
+Third-party components retain their respective licences, as described
+in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
+Please consult the Science Data Bank record for the published dataset
+version, file information, and download instructions.
