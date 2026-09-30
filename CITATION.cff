@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-title: "A Multimodal Dataset for Perception in Real-World Maritime Navigation Scenarios"
-message: "If you use the MarScenes3D code or dataset, please cite the dataset and the paper titled 'A Multimodal Dataset for Perception in Real-World Maritime Navigation Scenarios'."
+title: "MarScenes3D code"
+message: "If you use MarScenes3D, please cite the dataset using the preferred citation below."
 type: software
 authors:
   - family-names: Wang
@@ -8,7 +8,16 @@ authors:
 repository-code: "https://github.com/wyt1004/MarScenes3D"
 license: MIT
 version: "1.0.0"
-identifiers:
-  - type: doi
-    value: "10.57760/sciencedb.35872"
-    description: "MarScenes3D dataset DOI"
+
+preferred-citation:
+  type: data
+  authors:
+    - family-names: Wang
+      given-names: Yutang
+  title: "A multimodal dataset for perception in real-world maritime navigation scenarios"
+  year: 2026
+  version: "3"
+  publisher:
+    name: "Science Data Bank"
+  doi: "10.57760/sciencedb.35872"
+  url: "https://doi.org/10.57760/sciencedb.35872"
