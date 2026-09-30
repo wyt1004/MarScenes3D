@@ -16,6 +16,7 @@ MarScenes3D Version 3 is available from
 - Dataset DOI: https://doi.org/10.57760/sciencedb.35872
 - Dataset version: Version 3
 - Dataset licence: [CC BY 4.0](DATA_LICENSE.md)
+- Total download size: 232.26 GB
 
 All dataset files are publicly downloadable without an access request
 or approval from the authors.
@@ -37,7 +38,9 @@ This repository does not define a 2D tracker. The 2D task is detection only;
 
 ## Repository status
 
-This repository is the MarScenes3D `v1.0` release. Model implementations and
+The code version documented in this repository is `1.0.0`.
+The dataset release described above is Science Data Bank Version 3.
+Code and dataset versions are tracked separately. Model implementations and
 checkpoints are intentionally external; record their exact upstream commit,
 package version, and command in `docs/BENCHMARKS.md`.
 
